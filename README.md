@@ -6,35 +6,11 @@ A real-time embedded systems project that measures the speed of a moving object 
 
 ## 📖 Overview
 
-This project estimates the speed of a moving object by measuring the time it takes to travel between two sensors positioned 28 cm apart.
+This project estimates the speed of a moving object by measuring the time it takes to travel between two sensors positioned **28 cm apart**.
 
-The ultrasonic sensor starts the timer when an object enters a 15 cm detection zone, while the IR sensor stops the timer when the object reaches the finish point. The Arduino then calculates the object's speed and displays the results in the Serial Monitor.
+The ultrasonic sensor starts the timer when an object enters a **15 cm detection zone**, while the IR sensor stops the timer when the object reaches the finish point. The Arduino then calculates the object's speed and displays the results in the Serial Monitor.
 
-The project was developed through multiple iterations involving testing, debugging, sensor calibration, and interface refinement.
-
----
-
-## 📸 Project Images
-
-### Hardware Setup
-
-![Hardware Setup](Images/setup.jpg)
-
-### Wiring
-
-![Wiring](Images/wiring.jpg)
-
-### Serial Monitor Output
-
-![Serial Monitor](Images/serial-monitor.png)
-
----
-
-## 🎥 Demonstration
-
-Project demonstration video:
-
-[demo.mp4](Videos/demo.mp4)
+The project was developed through multiple iterations involving testing, debugging, sensor calibration, and user interface refinement.
 
 ---
 
@@ -45,7 +21,7 @@ Project demonstration video:
 * Flying Fish IR sensor integration
 * Stopwatch-style lap timing
 * Automatic lap detection
-* Automatic reset mechanism
+* Automatic system reset
 * Clean Serial Monitor interface
 * Event-driven timing using `millis()`
 
@@ -68,61 +44,104 @@ Project demonstration video:
 
 ### HC-SR04 Ultrasonic Sensor
 
-| Sensor Pin | Arduino Uno Pin |
-| ---------- | --------------- |
-| VCC        | 5V              |
-| GND        | GND             |
-| TRIG       | D9              |
-| ECHO       | D10             |
+| HC-SR04 Pin | Arduino Uno Pin |
+| ----------- | --------------- |
+| VCC         | 5V              |
+| GND         | GND             |
+| TRIG        | D9              |
+| ECHO        | D10             |
 
 ### Flying Fish IR Sensor
 
-| Sensor Pin | Arduino Uno Pin |
-| ---------- | --------------- |
-| VCC        | 5V              |
-| GND        | GND             |
-| OUT        | D2              |
+| IR Sensor Pin | Arduino Uno Pin |
+| ------------- | --------------- |
+| VCC           | 5V              |
+| GND           | GND             |
+| OUT           | D2              |
 
 ---
 
 ## 📏 Sensor Placement
 
-* Distance between sensors: **28 cm**
-* Ultrasonic trigger distance: **15 cm**
+* Distance between Ultrasonic Sensor and IR Sensor: **28 cm**
+* Ultrasonic Trigger Distance: **15 cm**
 
-The ultrasonic sensor acts as the starting point while the IR sensor acts as the finish line.
+The ultrasonic sensor acts as the starting point of the lap, while the IR sensor acts as the finish line.
 
 ---
 
 ## ⚙️ How It Works
 
-### Step 1 — Idle State
+### Step 1 — Ready State
 
 The Arduino waits for an object to enter the ultrasonic sensor's detection range.
 
 ### Step 2 — Lap Start
 
-When the object comes within 15 cm:
+When an object comes within **15 cm** of the ultrasonic sensor:
 
-* Lap begins
-* Stopwatch starts
-* Timer updates every 0.25 seconds
+* The lap begins.
+* The stopwatch starts.
+* The Serial Monitor displays:
 
-### Step 3 — Lap Finish
+```text
+Lap 1 Started...
+```
 
-When the object reaches the IR sensor:
+### Step 3 — Timing
 
-* Stopwatch stops
-* Travel time is calculated
-* Speed is calculated
+The stopwatch updates every **0.25 seconds** while the object moves toward the IR sensor.
 
-Formula used:
+Example:
 
-Speed = Distance ÷ Time
+```text
+0.25
+0.50
+0.75
+1.00
+```
 
-### Step 4 — Reset
+### Step 4 — Lap Finish
 
-The system waits until the object leaves both sensors before allowing another measurement.
+When the IR sensor detects the object:
+
+* The stopwatch stops.
+* Travel time is calculated.
+* Speed is calculated using:
+
+```text
+Speed = Distance / Time
+```
+
+The final lap time and speed are displayed in the Serial Monitor.
+
+### Step 5 — Reset
+
+The system waits for the object to leave both sensors before allowing a new lap to begin.
+
+---
+
+## 📸 Project Images
+
+### Hardware Setup
+
+![Hardware Setup](Images/setup.jpg)
+
+### Wiring
+
+![Wiring](Images/wiring.jpg)
+
+### Serial Monitor Output
+
+![Serial Monitor](Images/serial-monitor.png)
+
+---
+
+## 🎥 Demo
+
+Project demonstration video:
+
+`Videos/demo.mp4`
 
 ---
 
@@ -156,59 +175,36 @@ Real-Time-Object-Speed-Estimator/
 
 The initial implementation was developed with AI assistance and then refined through testing, debugging, calibration, and iterative improvements.
 
-The project evolved through multiple development cycles until the hardware and software worked reliably together.
+The project evolved through multiple versions before reaching a stable and reliable final design.
 
 ---
 
 ## 🧩 Challenges Faced
 
-### Continuous Triggering
+During development, several engineering challenges were encountered:
 
-The ultrasonic sensor repeatedly detected the same object, causing unwanted measurements.
-
-### Trigger Distance Calibration
-
-Different trigger distances were tested before selecting a stable value of 15 cm.
-
-### Sensor Synchronization
-
-Both sensors needed to work together accurately to produce reliable timing results.
-
-### Serial Monitor Flooding
-
-Early versions continuously printed data, making the output difficult to read.
-
-The interface was redesigned into a clean stopwatch-style display.
-
-### Real-World Testing
-
-Testing with moving objects revealed timing and detection issues that required several rounds of refinement.
+* Continuous sensor triggering caused repeated measurements.
+* Trigger distance required calibration for reliable detection.
+* Synchronizing the ultrasonic and IR sensors.
+* Preventing duplicate lap recordings.
+* Creating a clean and minimal Serial Monitor interface.
+* Testing the system with moving objects at different speeds.
 
 ---
 
 ## 📚 Lessons Learned
 
-Through this project I gained practical experience in:
+This project helped me gain practical experience with:
 
-* Arduino Programming
-* Sensor Integration
-* Embedded Systems
-* Hardware Debugging
-* Sensor Calibration
-* Real-Time Timing with `millis()`
-* State-Based Programming
-* Technical Documentation
-* Iterative Problem Solving
-
----
-
-## 📄 Documentation
-
-A complete project report is available in:
-
-```text
-Docs/Project_Report.pdf
-```
+* Arduino programming
+* Sensor integration
+* Real-time timing using `millis()`
+* State-based programming
+* Hardware debugging
+* Sensor calibration
+* Embedded systems development
+* Iterative engineering and problem solving
+* Human-AI collaborative software development
 
 ---
 
@@ -216,11 +212,21 @@ Docs/Project_Report.pdf
 
 * OLED display integration
 * Bluetooth connectivity
-* ESP32 web dashboard
+* ESP32 Wi-Fi dashboard
 * SD card data logging
 * Interrupt-based IR detection
 * Average, minimum, and maximum speed statistics
-* Multiple lap support
+* Multi-lap timing system
+
+---
+
+## 📄 Documentation
+
+A detailed project report is available in:
+
+```text
+Docs/Project_Report.pdf
+```
 
 ---
 
@@ -228,10 +234,4 @@ Docs/Project_Report.pdf
 
 **Mohammed Moiz Khan**
 
-NED University of Engineering & Technology
-
----
-
-## ⭐ Support
-
-If you found this project useful or interesting, consider starring the repository.
+If you found this project interesting, feel free to ⭐ star the repository.
